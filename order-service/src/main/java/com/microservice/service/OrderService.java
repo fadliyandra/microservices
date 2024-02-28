@@ -16,6 +16,7 @@ import com.microservice.repository.OrderRepository;
 import com.microservice.webclient.CustomerClient;
 import com.microservice.webclient.ProductClient;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.transaction.Transactional;
 
 @Transactional
@@ -49,6 +50,8 @@ public class OrderService {
             return orderRepository.save(order);
     }
 
+
+   // @CircuitBreaker(name = "customerService", fallbackMethod = "fallbackFindCustomerById")
     public OrderResponse findById(Long id){
         Optional<Order> optOrder = orderRepository.findById(id);
         if (!optOrder.isPresent()) {
@@ -67,6 +70,12 @@ public class OrderService {
 
         return response;
     }
+
+    private OrderResponse fallbackFindCustomerById(Long id, Throwable throwable){
+        return new OrderResponse();
+    }
+
+
 
 
     public OrderResponse findByOrderNumber(String orderNumber){

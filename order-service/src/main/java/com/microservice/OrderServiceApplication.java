@@ -2,7 +2,9 @@ package com.microservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 //import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
@@ -33,9 +35,15 @@ public class OrderServiceApplication {
 	@Autowired
 	private LoadBalancedExchangeFilterFunction loadBalancedExchangeFilterFunction;
 
+	@Autowired
+	private WebClient.Builder webCBuilderCustomer;
+
+	@Autowired
+	private WebClient.Builder webBuilderProdoct;
+
 	@Bean
 	WebClient webClientCustmers(){
-		return WebClient.builder()
+		return webCBuilderCustomer
 		.baseUrl("http://spring-customer-service")
 		.filter(loadBalancedExchangeFilterFunction)
 		.build();
@@ -52,7 +60,7 @@ public class OrderServiceApplication {
 
 	@Bean
 	WebClient webClientProducts(){
-		return WebClient.builder()
+		return webBuilderProdoct
 		.baseUrl("http://spring-product-service")
 		.filter(loadBalancedExchangeFilterFunction)
 		.build();

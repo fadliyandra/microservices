@@ -28,6 +28,9 @@ spring:
             hibernate:
                 format_sql: true
 management:
+    tracing:
+        sampling:
+            probability: 1.0
     endpoints:
         web:
             exposure:

@@ -26,4 +26,9 @@ spring:
                   uri: lb://order-service
                   predicates:
                     - Path=/api/orders/**
+management:
+    tracing:
+        sampling:
+            probability: 1.0
+
 

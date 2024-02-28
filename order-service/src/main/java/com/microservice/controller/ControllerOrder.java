@@ -11,6 +11,8 @@ import com.microservice.dto.OrderResponse;
 import com.microservice.entity.Order;
 import com.microservice.service.OrderService;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 
 @RestController
 @RequestMapping("/api/orders")
@@ -20,8 +22,9 @@ public class ControllerOrder {
 
     public ControllerOrder(OrderService orderService) {
     this.orderService = orderService;
-}
+    }
 
+    
     @GetMapping("/{id}")
     public OrderResponse findById(@PathVariable("id") Long id){
         return orderService.findById(id);
