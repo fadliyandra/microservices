@@ -51,7 +51,7 @@ public class OrderService {
     }
 
 
-   // @CircuitBreaker(name = "customerService", fallbackMethod = "fallbackFindCustomerById")
+    @CircuitBreaker(name = "customerService", fallbackMethod = "fallbackFindCustomerById")
     public OrderResponse findById(Long id){
         Optional<Order> optOrder = orderRepository.findById(id);
         if (!optOrder.isPresent()) {

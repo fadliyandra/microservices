@@ -1,0 +1,24 @@
+server:
+    port: 8099
+
+
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/dbuser
+        username: root
+        password: 121212
+        driver-class-name: com.mysql.jdbc.Driver
+        hikari: 
+            minimumIdle: 2
+            maximumPoolSize: 5
+            cachePrepStmts: true
+            prepStmtChaceSize: 250
+            prepStmtCacheSqlLimit: 2048
+            userServerPrepStmts: true
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        properties:
+            hibernate:
+                format_sql: true
