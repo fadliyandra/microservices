@@ -2,6 +2,7 @@ package com.microservice.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,14 +15,16 @@ import com.microservice.repository.UserInfoRepository;
 @Service
 public class UserInfoService implements UserDetailsService{
  
-    private final UserInfoRepository userInfoRepository;
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public UserInfoService(UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder) {
-        this.userInfoRepository = userInfoRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    // public UserInfoService(UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder) {
+    //     this.userInfoRepository = userInfoRepository;
+    //     this.passwordEncoder = passwordEncoder;
+    // }
 
 
     public String addUser(UserInfo userInfo){
@@ -36,7 +39,8 @@ public class UserInfoService implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // TODO Auto-generated method stub
        Optional<UserInfo> userInfo = userInfoRepository.findByName(username);
-       return userInfo.map(UserInfoDetails::new).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+       return userInfo.map(UserInfoDetails::new).
+       orElseThrow(() -> new UsernameNotFoundException("User not found"));
         
 
     }

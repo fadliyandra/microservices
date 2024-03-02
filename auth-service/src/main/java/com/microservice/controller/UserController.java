@@ -3,9 +3,11 @@ package com.microservice.controller;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.microservice.dto.AuthRequest;
@@ -25,9 +27,10 @@ public class UserController {
 
 
 
-    public UserController(UserInfoService userInfoService, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public UserController(UserInfoService userInfoService, JwtService jwtService, 
+    AuthenticationManager authenticationManager) {
         this.userInfoService = userInfoService;
-        this.jwtService = new JwtService();
+        this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
     }
 
@@ -40,7 +43,7 @@ public class UserController {
     @PostMapping("/generateToken")
     public String generateToken(@RequestBody AuthRequest authRequest){
         Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(authRequest.getName(), authRequest.getName()));
+            new UsernamePasswordAuthenticationToken(authRequest.getName(), authRequest.getPassword()));
 
             if (authentication.isAuthenticated()) {
                 return jwtService.generateToken(authRequest.getName());
@@ -48,11 +51,12 @@ public class UserController {
             }else{
                 throw  new RuntimeException("Invalid username password");
             }
-
-
-     //   return jwtService.generateToken(authRequest.getName());
-
     }
-    
+
+    @GetMapping("/validateToken")
+    public String validateToken(@RequestParam("token") String token){
+        jwtService.validateToken(token);
+        return "Token is valid";
+    }
 
 }

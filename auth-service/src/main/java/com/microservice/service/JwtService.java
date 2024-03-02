@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -36,6 +37,25 @@ public class JwtService {
         .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + 100 * 60 *30))
         .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
+    }
+
+
+
+    private Claims extractAllClaims(String token){
+        return Jwts.parserBuilder()
+                .setSigningKey(getSignKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public String validateToken(String token) {
+        // TODO Auto-generated method stub
+        final Claims claims = extractAllClaims(token);
+        return "Token is valid";
+        
+
+
     }
 
     

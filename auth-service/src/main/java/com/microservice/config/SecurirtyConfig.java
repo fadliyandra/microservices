@@ -39,7 +39,7 @@ public class SecurirtyConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-    return new UserInfoService(null, null);
+    return new UserInfoService();
         
     }
     
