@@ -18,14 +18,20 @@ spring:
                   uri: lb://spring-customer-service
                   predicates:
                     - Path=/api/customers/**
+                  filters:
+                    - AuthFilter
                 - id: spring-product-service
                   uri: lb://spring-product-service
                   predicates:
                     - Path=/api/products/**
+                  filters:
+                    - AuthFilter
                 - id: order-service
                   uri: lb://order-service
                   predicates:
                     - Path=/api/orders/**
+                  filters:
+                    - AuthFilter
                 - id: auth_service
                   uri: lb://auth-service
                   predicates:
