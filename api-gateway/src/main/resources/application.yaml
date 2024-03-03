@@ -26,6 +26,11 @@ spring:
                   uri: lb://order-service
                   predicates:
                     - Path=/api/orders/**
+                - id: auth_service
+                  uri: lb://auth-service
+                  predicates:
+                    - Path=/api/auth/**
+
 management:
     tracing:
         sampling:
