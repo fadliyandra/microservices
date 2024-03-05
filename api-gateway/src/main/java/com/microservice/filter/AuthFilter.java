@@ -12,8 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.microservice.utils.JwtUtils;
+
 @Component
 public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> {
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @Autowired
     private RouteValidator routeValidator;
@@ -50,7 +55,10 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
                     //validasi token
                     try {
                         
-                        restTemplate.getForObject("http://localhost:8099/api/auth/validateToken?token"+ token, String.class);
+                        // restTemplate.getForObject("http://localhost:8099/api/auth/validateToken?token"+ token,
+                        //  String.class);
+                        jwtUtils.validateToken(token);
+
                     } catch (Exception ex) {
 
                         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
